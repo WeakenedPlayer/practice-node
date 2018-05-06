@@ -1,0 +1,9 @@
+{
+  "name": "server",
+  "scripts": {
+    "start": "node ./server/main"
+  },
+  "main": "./server/main",
+  "dependencies": {
+  }
+}

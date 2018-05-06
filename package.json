@@ -1,0 +1,17 @@
+{
+	"scope": "@weakenedplayer",
+	"name": "@weakenedplayer/google-kit",
+	"version": "0.0.0",
+	"description": "",
+	"repository": "https://github.com/WeakenedPlayer/practice-node.git",
+	"license": "MIT",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc -p tsconfig.json",
+		"test": "tsc -p tsconfig.test.json && node dist-test/index.js"
+	},
+	"dependencies": {
+	},
+	"devDependencies": {}
+}
