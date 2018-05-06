@@ -1,4 +1,4 @@
-import { CONFIG } from '../config';
+import { CONFIG } from '@weakenedplayer/app-config';
 
 // port configuration
 var app = require('../app');
