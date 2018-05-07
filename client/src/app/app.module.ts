@@ -10,9 +10,9 @@ import { GoogleSigninModule, GoogleSigninService } from '@weakenedplayer/google-
     ],
     imports: [
         BrowserModule,
-        GoogleSigninModule.forRoot( { clientId:'253704543713-9j1mmf0k16kvp3dvku5q89ph06ahsmkk.apps.googleusercontent.com' } )
+        GoogleSigninModule.forRoot( { client_id:'253704543713-9j1mmf0k16kvp3dvku5q89ph06ahsmkk.apps.googleusercontent.com' } )
     ],
     providers: [ GoogleSigninService ],
-    bootstrap: [AppComponent]
+    bootstrap: [ AppComponent ]
 } )
 export class AppModule {}
