@@ -14,18 +14,32 @@ import * as passport from 'passport';
 import { OAuth2Strategy }  from 'passport-google-oauth';
 import { CREDENTIAL } from '@weakenedplayer/app-config';
 
-passport.use( new OAuth2Strategy( {
-        clientID: CREDENTIAL.client_id,
-        clientSecret: CREDENTIAL.client_secret,
-        callbackURL: "/auth/google/callback"
-    },
-    function(accessToken, refreshToken, profile, done) {
-        console.log( accessToken );
-        console.log( refreshToken );
-        console.log( profile );
-        done( null, 'OK' );
-      }
-));
+
+import * as firebase from 'firebase-admin';
+var serviceAccount = require("./secret/firebase.json");
+
+//firebase.initializeApp( {
+//    credential: firebase.credential.cert( serviceAccount ),
+//    databaseURL: 'https://outfitappdev-1525596402374.firebaseio.com'
+//} );
+//var db = firebase.database();
+//db.goOnline();
+//
+//class OutfitRecruit {
+//    readonly 'outfitId': string;
+//    readonly 'recruitBy': string; // character id
+//    readonly 'createdAt': number;
+//}
+//
+//import { FirebaseRepos }  from './modules/firebase-repos';
+
+//let outfitRecruit = new FirebaseRepos<OutfitRecruit>( db, '/ofr', 'outfitId' );
+//
+//outfitRecruit.set( { outfitId: '123', recruitBy: '1ssd3', 'createdAt': Date.now() } );
+//outfitRecruit.get( '432222' ).then( data => console.log( data ) );
+//outfitRecruit.getAll().then( data => {
+//    console.log( data );
+//} );
 
 //Parsers for POST data
 if( process.env.NODE_ENV === 'development' ) {
@@ -37,39 +51,30 @@ app.use( bodyParser.urlencoded( { extended: false } ) );
 app.use( cookieParser());
 app.use( express.static(path.join( __dirname, '../client/assets') ) );
 
-function isAuthenticated( req, res, next ){
-    console.log( 'hello')
-    if( req.isAuthenticated() ) {
-        return next();
-    }
-    else {
-        res.redirect('/login');
-    }
-}
+import { OAuth2Client } from 'google-auth-library';
 
+const client = new OAuth2Client( CREDENTIAL.client_id );
+app.post( '/outfit',  (req, res) => {
+    let option = {
+        idToken: req.body.token,
+        audience: CREDENTIAL.auth_uri,
+    };
+    client.verifyIdToken( option ).then( ticket => {
+        let payload = ticket.getPayload();
+        let userId = payload[ 'sub' ];
 
-app.get('/login', passport.authenticate( 'google', {
-    scope: [],
-    failureRedirect: '/ng',
-    successRedirect: '/ok',
-    session: true
-} ) );
-
-app.get('/auth/google/callback', (req, res) => {
-    res.json( { res: 'req!!!' } );
+        console.log( payload );
+        console.log( userId );
+        res.json( { res: 'req!!!' } );
+    } ).catch( ( err ) => {
+        console.log( err );
+        res.status( 401 );
+        res.json( { res: 'NG!!!' } );        
+    } );
 } );
 
-app.get('/req-auth', isAuthenticated, (req, res) => {
-    res.json( { res: 'req!!!' } );
-} );
 
-app.get('/ok', isAuthenticated, (req, res) => {
-    res.json( { res: 'OK!!!' } );
-} );
 
-app.get('/ng', isAuthenticated, (req, res) => {
-    res.json( { res: 'ng!!!' } );
-} );
 
 app.get('/:file', (req, res) => {
     var file = req.params.file;

@@ -15,6 +15,7 @@ module.exports = {
     },
     devtool: 'source-map',
     resolve: {
+    	mainFields: ["main", "module"],
         extensions:['.ts', '.webpack.js', '.web.js', '.js', '.json' ]
     },
     module : {

@@ -1,6 +1,5 @@
 const CONFIG = JSON.parse( process.env.APP_CONFIG );
-const CREDENTIAL: Credential = JSON.parse( process.env.APP_CREDENTIAL )[ 'installed' ];
-
+const CREDENTIAL: Credential = JSON.parse( process.env.APP_CREDENTIAL )[ 'web' ];
 export interface Credential {
     'client_id': string;
     'project_id': string;

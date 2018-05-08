@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GoogleSigninService } from '@weakenedplayer/google-signin';
 import { Observable, Subscription, of } from 'rxjs';
 import { tap, filter, flatMap, shareReplay } from 'rxjs/operators';
-
-declare const gapi: any;
+import { HttpClient } from '@angular/common/http';
 
 @Component( {
   selector: 'app-root',
@@ -13,12 +12,10 @@ declare const gapi: any;
 export class AppComponent implements OnInit {
     title = 'app';
     
-    ready: boolean = false;
     ready$: Observable<boolean>;
     signedIn$: Observable<boolean>;
     token: string;
-    sb: Subscription = new Subscription();
-    constructor( private service: GoogleSigninService ) {
+    constructor( private service: GoogleSigninService, private http: HttpClient ) {
         this.ready$ = this.service.ready$;
         this.signedIn$ = this.service.auth$
         .pipe(
@@ -37,15 +34,20 @@ export class AppComponent implements OnInit {
     signout(): void {
         this.service.auth.signOut();
     }
-    fake(){
-        this.ready = false;
+
+    post(): void {
+        console.log( 'k')
+        let  body = { token: this.token };
+        this.http.post( '/outfit', body )
+        .pipe( tap( res => {
+            console.log( res );
+        } ) ).subscribe();
     }
+    
     ngOnInit(): void {
-        this.service.waitAuthReady().then( auth => {
-            this.ready = true;
-        } );
     }
 }
+
 
 /* TODO
  * ログインしたかどうかをモニタ出来るようにする
