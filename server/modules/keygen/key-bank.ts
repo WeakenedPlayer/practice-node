@@ -1,6 +1,7 @@
 import { Observable, Subject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, publishReplay, flatMap, toArray } from 'rxjs/operators';
 import { KeyGenerator, KeyGeneratorOption, Key } from './key-generator';
+import { toLatestArray } from './array';
 
 const DEFAULT_STOCK = 16;
 
@@ -12,37 +13,23 @@ export class KeyBank {
     private keyGen: KeyGenerator;
     private generateObservable: Observable<void>;
     private bankObservable: Observable<Key[]>;
-    private keys: Key[] = [];
-
     private stock: number;
 
-    constructor( private scheduler: Observable<void>, option?: KeyBankOption ) {
+    constructor( option?: KeyBankOption ) {
         if( !option ) {
             option = {};
         }
         this.stock = option.stock || DEFAULT_STOCK;
         this.keyGen = new KeyGenerator( option );
         
-        this.generateObservable = this.scheduler
-        .pipe(
-            tap( () => {
-                this.keyGen.next();
-            } )
-        );
-        
-        this.bankObservable = this.keyGen.key$.pipe(
-            map( key => { 
-                this.keys.push( key );
-                if( this.keys.length >= this.stock ) {
-                    this.keys.shift();
-                }
-                
-                return this.keys;
-            } )
-        );
+        this.bankObservable = this.keyGen.key$.pipe( toLatestArray( this.stock ) );
     }
     
-    find( sequence: number ): Key {
-        return this.keys.find( key => key.sequence === sequence );
+    next(): void {
+        this.keyGen.next();
+    }
+    
+    get keys$(): Observable<Key[]> {
+        return this.bankObservable;
     }
 }
