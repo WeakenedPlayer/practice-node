@@ -11,7 +11,6 @@ const DEFAULT_SEQUENCE = 16;
 
 export interface KeyGeneratorOption {
     length?: number;
-    period?: number;
     maxSequence?: number;
 }
 
@@ -34,16 +33,15 @@ export class KeyGenerator {
 
     // ------------------------------------------------------------------------
     private nextKey( body: Buffer ): Key {
-        let sequence = this.sequence;
         let key: Key = {
             createdAt: Date.now(),
             sequence: this.sequence,
             body: body
         };
         
-        sequence++;
-        if( sequence >= this.maxSequence ) {
-            sequence = 0;
+        this.sequence++;
+        if(  this.sequence >= this.maxSequence ) {
+            this.sequence = 0;
         }
         return key;
     }

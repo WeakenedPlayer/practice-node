@@ -14,9 +14,24 @@ import * as passport from 'passport';
 import { OAuth2Strategy }  from 'passport-google-oauth';
 import { CREDENTIAL } from '@weakenedplayer/app-config';
 
+import { toRingBuffer, toLatestArray, KeyBank } from './modules/keygen';
+import { of, interval } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 
 import * as firebase from 'firebase-admin';
 var serviceAccount = require("./secret/firebase.json");
+
+let bank = new KeyBank( { length: 4, maxSequence: 10, stock: 2 } );
+
+
+interval( 1000 ).pipe( 
+    tap( () => {
+        bank.next();
+    }
+) ).subscribe();
+
+bank.keys$.subscribe( k => console.log( k ) );
 
 //firebase.initializeApp( {
 //    credential: firebase.credential.cert( serviceAccount ),
