@@ -14,6 +14,11 @@ import * as passport from 'passport';
 import { OAuth2Strategy }  from 'passport-google-oauth';
 import { CREDENTIAL } from '@weakenedplayer/app-config';
 
+import * as JWT from './modules/jwt-wrapper';
+
+let test = { a: '123', b: '234' };
+
+
 import { toRingBuffer, toLatestArray, KeyBank } from './modules/keygen';
 import { of, interval } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -22,8 +27,8 @@ import { tap } from 'rxjs/operators';
 import * as firebase from 'firebase-admin';
 var serviceAccount = require("./secret/firebase.json");
 
-let bank = new KeyBank( { length: 4, maxSequence: 10, stock: 2 } );
-
+let bank = new KeyBank( { length: 16, maxSequence: 32, stock: 10 } );
+bank.init();
 
 interval( 1000 ).pipe( 
     tap( () => {
@@ -31,7 +36,15 @@ interval( 1000 ).pipe(
     }
 ) ).subscribe();
 
-bank.keys$.subscribe( k => console.log( k ) );
+bank.keys$.subscribe( keys => {
+    let key = keys[0];
+    JWT.asyncSign( test, key.body ).then( token => {
+        console.log( 'token:   ' + token );
+        return JWT.asyncVerify( token, key.body );
+    } ).then( decoded => {
+        console.log( decoded );
+    } );
+} );
 
 //firebase.initializeApp( {
 //    credential: firebase.credential.cert( serviceAccount ),

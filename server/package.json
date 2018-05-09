@@ -10,6 +10,7 @@
   },
   "main": "../dist/server/main",
   "dependencies": {
+    "@types/jsonwebtoken": "^7.2.7",
     "@weakenedplayer/app-config": "file:modules/app-config",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",

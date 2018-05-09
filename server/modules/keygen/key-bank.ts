@@ -29,6 +29,12 @@ export class KeyBank {
         this.keyGen.next();
     }
     
+    init(): void {
+        for( let i = 0; i < this.stock; i ++ ) {
+            this.keyGen.next();
+        }
+    }
+    
     get keys$(): Observable<Key[]> {
         return this.bankObservable;
     }

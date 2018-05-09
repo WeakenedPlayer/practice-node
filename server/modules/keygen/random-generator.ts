@@ -1,5 +1,4 @@
 import { Observable, Subject } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
 import * as crypto from 'crypto';
 
 // 乱数の生成 (cryptoのラッパー)
@@ -7,7 +6,6 @@ import * as crypto from 'crypto';
 export class RandomGenerator {
     private bufSubject: Subject<Buffer> = new Subject();
 
-    // ------------------------------------------------------------------------
     next( length: number ): void {
         crypto.randomBytes( length, ( err: Error, buf: Buffer ) => {
             if( err ) {
@@ -17,7 +15,6 @@ export class RandomGenerator {
         } );
     }
 
-    // ------------------------------------------------------------------------
     get random$(): Observable<Buffer> {
         return this.bufSubject;
     }
