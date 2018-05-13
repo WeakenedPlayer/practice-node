@@ -1,5 +1,4 @@
 import { Observable, Subject } from 'rxjs';
-import * as crypto from 'crypto';
 import * as JWT from 'jsonwebtoken';
 
 export function asyncSign( payload: string | object | Buffer, key: JWT.Secret, option?: JWT.SignOptions ): Promise<string> {

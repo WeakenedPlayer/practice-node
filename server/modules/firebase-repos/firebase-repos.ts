@@ -17,8 +17,8 @@ export class FirebaseRepos<T> {
         return this.ref( kv.key ).set( kv.value );
     }
     
-    get( outfitId: string ): Promise<T> {
-        return this.ref( outfitId ).once( 'value' )
+    get( id: string ): Promise<T> {
+        return this.ref( id ).once( 'value' )
         .then( snapshot => {
             let tmp: T = this.conv.invert( snapshot.key, snapshot.val() );
             return tmp;
