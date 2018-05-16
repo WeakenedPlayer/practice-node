@@ -2,7 +2,7 @@ import { decode } from 'jsonwebtoken';
 import { asyncVerify, asyncSign } from '@weakenedplayer/wrappers';
 import { RandomFifo, randomInteger, RandomElement } from '@weakenedplayer/random-generator';
 
-export interface JwtIssuerOption {
+export interface JwtVerifierOption {
     keyLength?: number;
     stock?: number;
     activeStock?: number;
@@ -15,18 +15,18 @@ export interface JwtOption {
 
 // aud, isa 等の確認は別途追加
 
-const defaultOption: JwtIssuerOption = {
+const defaultOption: JwtVerifierOption = {
     keyLength: 16,
     stock: 32,
     activeStock: 16,
     sequence: 128,
 }
 
-export class JwtIssuer {
+export class JwtVerifier {
     private keys: RandomFifo;
-    private option: JwtIssuerOption;
+    private option: JwtVerifierOption;
 
-    constructor( option?: JwtIssuerOption ) {
+    constructor( option?: JwtVerifierOption ) {
         if( !option ) {
             option = {};
         }

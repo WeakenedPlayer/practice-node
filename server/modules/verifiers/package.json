@@ -1,6 +1,6 @@
 {
   "scope": "@weakenedplayer",
-  "name":  "@weakenedplayer/jwt-issuer",
+  "name":  "@weakenedplayer/verifiers",
   "version": "0.0.0",
   "description": "",
   "private": true,
