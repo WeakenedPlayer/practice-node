@@ -15,7 +15,7 @@ export interface NotificationInfo {
     'param': any;
 }
 
-export interface OutfitRecruit extends OutfitInfo {
+export interface OutfitRecruitInfo extends OutfitInfo {
     'recruiterId': string;
     'notification': NotificationInfo;
 }

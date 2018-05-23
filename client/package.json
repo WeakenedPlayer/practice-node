@@ -22,6 +22,7 @@
     "@angular/router": "^6.0.0",
     "@weakenedplayer/google-signin": "file:src/components/google-login",
     "core-js": "^2.5.4",
+    "primeng": "^5.2.6",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },

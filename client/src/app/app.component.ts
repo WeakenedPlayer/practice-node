@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
     
     ready$: Observable<boolean>;
     signedIn$: Observable<boolean>;
+    test: string; 
     token: string;
     constructor( private service: GoogleSigninService, private http: HttpClient ) {
         this.ready$ = this.service.ready$;
@@ -27,7 +28,7 @@ export class AppComponent implements OnInit {
     
     signin(): void {
         this.service.auth.signIn().then( user => {
-            this.token = user.getAuthResponse().id_token;
+            this.test = user.getAuthResponse().id_token;
         } );
     }
     
@@ -35,13 +36,27 @@ export class AppComponent implements OnInit {
         this.service.auth.signOut();
     }
 
-    post(): void {
-        console.log( 'k')
-        let  body = { token: this.token };
-        this.http.post( '/outfit', body )
-        .pipe( tap( res => {
-            console.log( res );
-        } ) ).subscribe();
+    post( captcha: string ): void {
+        let  body = { captcha: this.test };
+        this.http.post( '/api/v1/captcha', body ).toPromise().then( res => console.log( res ) );
+    }
+    
+    postToken(): void {
+        let body = {
+            token: this.token,
+            passphrase: 'hello'
+        };
+        this.http.post( '/api/v1/check', body ).toPromise().then( res => console.log( res) );
+    }
+    
+    getToken(): void {
+        this.http.get( '/api/v1/token' ).toPromise().then( res => {
+            this.token = res[ 'token' ];
+        } );
+    }
+    showResponse( $event: any ) {
+        this.test = $event.response;
+        console.log( $event.response );
     }
     
     ngOnInit(): void {

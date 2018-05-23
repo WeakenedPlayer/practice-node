@@ -12,6 +12,7 @@
 		"test": "tsc -p tsconfig.test.json && node dist-test/index.js"
 	},
 	"dependencies": {
+		"@weakenedplayer/websocket-wrapper": "0.0.2"
 	},
 	"devDependencies": {}
 }

@@ -4,18 +4,9 @@
   <meta charset="utf-8">
   <title>Client</title>
   <base href="/">
+	<script src="https://www.google.com/recaptcha/api.js?render=explicit&onload=initRecaptcha" async defer></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  
-  <script>function onSignIn(googleUser) {
-	  var profile = googleUser.getBasicProfile();
-	  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-	  console.log('Name: ' + profile.getName());
-	  console.log('Image URL: ' + profile.getImageUrl());
-	  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-	  console.log('token: ' + googleUser.getAuthResponse().id_token); // This is null if the 'email' scope is not present.
-	}
-</script>
 </head>
 <body>
   <app-root></app-root>

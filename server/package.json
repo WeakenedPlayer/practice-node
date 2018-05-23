@@ -12,6 +12,13 @@
   "dependencies": {
     "@types/jsonwebtoken": "^7.2.7",
     "@weakenedplayer/app-config": "file:modules/app-config",
+    "@weakenedplayer/census-api": "^0.1.3",
+    "@weakenedplayer/firebase-repos": "file:modules/firebase-repos",
+    "@weakenedplayer/jwt-issuer": "file:modules/jwt-issuer",
+    "@weakenedplayer/random-generator": "file:modules/random-generator",
+    "@weakenedplayer/verifiers": "file:modules/verifiers",
+    "@weakenedplayer/websocket-wrapper": "0.0.1",
+    "@weakenedplayer/wrappers": "file:modules/wrappers",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "debug": "^2.6.9",
